@@ -7,15 +7,15 @@ and be submitted to the HockeyApp platform.
 
   gem 'motion-hockeyapp'
 
-  unzip the HockeySDK into vendor so you end up with exactly the following directory structure:
-  
-  vendor/HockeySDK/HockeySDK.framework
-  vendor/HockeySDK/Resources
-
 
 == Setup
 
     Motion::Project::App.setup do |app|
+      app.pods do
+        # ...
+        pod 'HockeySDK'
+        # ...
+      end
       # ...
       # app.development do
       #   app.identifier = 'com.your.App.dev'
@@ -48,7 +48,7 @@ and be submitted to the HockeyApp platform.
       end
 
       or, more advanced...
-    
+
       def application(application, didFinishLaunchingWithOptions:launchOptions)
         # ...
         if BITHockeyManagerLauncher.new.start { # execute this code before 'BITHockeyManager.sharedHockeyManager.startManager' is called }
@@ -101,16 +101,16 @@ or build in hockeyapp mode and try to deploy it to your device, but skip uploadi
 
   Copyright (c) 2012, Joe Noon <joenoon@gmail.com>
   All rights reserved.
-  
+
   Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met: 
-  
+  modification, are permitted provided that the following conditions are met:
+
   1. Redistributions of source code must retain the above copyright notice, this
-     list of conditions and the following disclaimer. 
+     list of conditions and the following disclaimer.
   2. Redistributions in binary form must reproduce the above copyright notice,
      this list of conditions and the following disclaimer in the documentation
-     and/or other materials provided with the distribution. 
-  
+     and/or other materials provided with the distribution.
+
   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
   ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
   WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
