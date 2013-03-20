@@ -47,7 +47,6 @@ class HockeyAppConfig
   def configure!
     @configured ||= begin
       @config.files << launcher_file
-      @config.frameworks += [ 'HockeySDK' ]
       true
     end
   end
