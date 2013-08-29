@@ -28,7 +28,7 @@ end
 
 class HockeyAppConfig
 
-  attr_accessor :api_token, :beta_id, :live_id, :status, :notify, :notes_type
+  attr_accessor :api_token, :beta_id, :live_id, :status, :notify, :notes_type, :commit_sha
 
   def set(var, val)
     @config.info_plist['HockeySDK'] ||= [{}]
@@ -41,7 +41,7 @@ class HockeyAppConfig
   end
 
   def inspect
-    {:api_token => api_token, :beta_id => beta_id, :live_id => live_id, :status => status, :notify => notify, :notes_type => notes_type}.inspect
+    {:api_token => api_token, :beta_id => beta_id, :live_id => live_id, :status => status, :notify => notify, :notes_type => notes_type, :commit_sha => commit_sha}.inspect
   end
 
   def configure!
@@ -104,7 +104,7 @@ namespace 'hockeyapp' do
     prefs.notify ||= "0"
     prefs.notes_type ||= "1"
 
-    cmd = %Q{/usr/bin/curl "https://rink.hockeyapp.net/api/2/apps" -F status="$status" -F notify="$notify" -F notes="$notes" -F notes_type="$notes_type" -F ipa="$ipa" -F dsym="$dsym" -H "$header"}
+    cmd = %Q{/usr/bin/curl "https://rink.hockeyapp.net/api/2/apps" -F status="$status" -F notify="$notify" -F notes="$notes" -F notes_type="$notes_type" -F ipa="$ipa" -F dsym="$dsym" -F commit_sha="$commit_sha" -H "$header"}
 
     env = {
       "notes" => ENV['notes'].to_s,
@@ -115,6 +115,9 @@ namespace 'hockeyapp' do
       "dsym" => "@#{app_dsym_zip}",
       "header" => "X-HockeyAppToken: #{prefs.api_token}"
     }
+
+    env["commit_sha"] = prefs.commit_sha if prefs.commit_sha
+
     App.info 'Run', "#{env.inspect} #{cmd}"
     system(env, cmd)
   end
