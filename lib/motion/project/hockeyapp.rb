@@ -46,7 +46,6 @@ class HockeyAppConfig
 
   def configure!
     @configured ||= begin
-      @config.files << launcher_file
       true
     end
   end
